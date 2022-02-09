@@ -1,7 +1,10 @@
+import react, { useContext, useEffect } from "react";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 
 import { Loader } from "./../components";
+import { TransactionContext } from "../context/TransactionsContext";
+
 const commonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 const Input = ({ placeholder, name, type, value, handleChange }) => (
@@ -15,7 +18,9 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
   />
 );
 const Welcome = () => {
-  const connectWallet = () => {};
+  const { connectWallet, currentAccount } = useContext(TransactionContext);
+  const handleSubmit = () => {};
+
   return (
     <div className="flex w-full justify-start items-center">
       <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
@@ -27,13 +32,17 @@ const Welcome = () => {
             Explore the crypto world. Buy and sell cryptocurrencies easily on
             Krypto.
           </p>
-          <button
-            className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
-            type="button"
-            onClick={() => connectWallet}
-          >
-            <p className="text-white text-base font-semibold">Connect Wallet</p>
-          </button>
+          {!currentAccount && (
+            <button
+              className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd]"
+              type="button"
+              onClick={(e) => connectWallet()}
+            >
+              <p className="text-white text-base font-semibold">
+                Connect Wallet
+              </p>
+            </button>
+          )}
           <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
             <div className={`rounded-tl-2xl ${commonStyles}`}>Reliability</div>
             <div className={commonStyles}>Security</div>
@@ -91,7 +100,7 @@ const Welcome = () => {
             ) : (
               <button
                 type="button"
-                onClick={(e) => handlesubmit}
+                onClick={(e) => handleSubmit()}
                 className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
               >
                 Send Now
